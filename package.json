@@ -1,0 +1,35 @@
+{
+  "name": "passport-akera",
+  "version": "1.0.0",
+  "description": "Akera authentication strategy for Passport.",
+  "keywords": [
+    "passport",
+    "akera",
+    "auth",
+    "authentication",
+    "identity"
+  ],
+  "author": {
+    "name": "Liviu Mihaianu",
+    "email": "liviu.mihaianu@acorn.ro"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "passport-strategy": ">=1.x.x",
+    "akera-api": ">=1.0.6"
+  },
+  "devDependencies": {
+    "mocha": "~1.21.4",
+    "should": ">= 5.0",
+    "jshint": ">= 2.6.0",
+    "jscs": ">= 1.11"
+  },
+  "scripts": {
+    "lint": "./node_modules/.bin/jshint ./lib",
+    "checkStyle": "./node_modules/.bin/jscs ./lib",
+    "test": "npm run-script lint && npm run-script checkStyle"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  }
+}
