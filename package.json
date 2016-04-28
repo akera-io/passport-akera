@@ -1,6 +1,6 @@
 {
   "name": "passport-akera",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Akera authentication strategy for Passport.",
   "keywords": [
     "passport",
@@ -16,7 +16,7 @@
   "main": "index.js",
   "dependencies": {
     "passport-strategy": ">=1.x.x",
-    "akera-api": ">=1.0.6"
+    "akera-api": ">=1.0.15"
   },
   "devDependencies": {
     "mocha": "~1.21.4",
@@ -24,6 +24,7 @@
     "jshint": ">= 2.6.0",
     "jscs": ">= 1.11"
   },
+  "bundledDependencies": ["akera-api"],
   "scripts": {
     "lint": "./node_modules/.bin/jshint ./lib",
     "checkStyle": "./node_modules/.bin/jscs ./lib",
