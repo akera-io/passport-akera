@@ -1,0 +1,12 @@
+/src/
+/coverage/
+/node_modules/
+/test/
+/doc/
+.gitignore
+.npmignore
+gulpfile.js
+tsconfig.json
+typedoc.json
+typings.json
+package-lock.json

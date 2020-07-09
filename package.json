@@ -1,6 +1,6 @@
 {
-  "name": "passport-akera",
-  "version": "1.0.1",
+  "name": "@akeraio/passport",
+  "version": "2.0.0",
   "description": "Akera authentication strategy for Passport.",
   "keywords": [
     "passport",
@@ -10,26 +10,45 @@
     "identity"
   ],
   "author": {
-    "name": "Liviu Mihaianu",
-    "email": "liviu.mihaianu@acorn.ro"
+    "name": "Marian Edu",
+    "email": "marian.edu@acorn.ro"
   },
-  "main": "index.js",
+  "main": "src/index.ts",
   "dependencies": {
-    "passport-strategy": ">=1.x.x",
-    "akera-api": ">=1.0.15"
+    "@akeraio/api": "^1.1.12",
+    "@types/passport-strategy": "^0.2.35",
+    "passport-strategy": "^1.0.0"
+  },
+  "scripts": {
+    "prepublishOnly": "gulp build && gulp doc",
+    "test": "gulp test",
+    "doc": "gulp doc",
+    "build": "gulp build"
   },
   "devDependencies": {
-    "mocha": "~1.21.4",
-    "should": ">= 5.0",
-    "jshint": ">= 2.6.0",
-    "jscs": ">= 1.11"
+    "@types/chai": "^4.1.3",
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^12.7.11",
+    "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-istanbul": "^1.1.3",
+    "gulp-mocha": "^7.0.2",
+    "gulp-sequence": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-strip-debug": "^3.0.0",
+    "gulp-typedoc": "^2.2.0",
+    "gulp-typescript": "^4.0.2",
+    "gulp-uglify-es": "^1.0.4",
+    "istanbul": "^0.4.5",
+    "remap-istanbul": "^0.11.1",
+    "ts-node": "^6.0.3",
+    "typedoc": "^0.15.0",
+    "typescript": "^2.8.3"
   },
-  "bundledDependencies": ["akera-api"],
-  "scripts": {
-    "lint": "./node_modules/.bin/jshint ./lib",
-    "checkStyle": "./node_modules/.bin/jscs ./lib",
-    "test": "npm run-script lint && npm run-script checkStyle"
-  },
+  "bundledDependencies": [
+    "@akeraio/api"
+  ],
   "license": {
     "type": "MIT",
     "url": "https://github.com/akera-io/passport-akera/raw/master/LICENSE"
