@@ -31,7 +31,7 @@ export class Strategy extends PassportStrategy {
 
     this.options = this.setDefaults(options);
 
-    this.name = "akeraAuth";
+    this.name = "akera";
     this.customVerify = verify;
   }
 
