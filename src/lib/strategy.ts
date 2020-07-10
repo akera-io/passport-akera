@@ -104,7 +104,7 @@ export class Strategy extends PassportStrategy {
   }
 
   private getCredentials(lInfo, field): string | null {
-    return !lInfo || !lInfo[field] ? lInfo[field] : null;
+    return !lInfo || !lInfo[field] ? null : lInfo[field];
   }
 
   private verify(err, user, info): void {

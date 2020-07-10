@@ -1,6 +1,6 @@
 {
   "name": "@akeraio/passport",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Akera authentication strategy for Passport.",
   "keywords": [
     "passport",
@@ -34,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^3.6.0",
     "@typescript-eslint/parser": "^3.6.0",
     "chai": "^4.2.0",
+    "chai-passport-strategy": "^1.0.1",
     "del": "^5.1.0",
     "eslint": "^7.4.0",
     "express": "^4.17.1",
