@@ -1,7 +1,6 @@
 {
     "target": "es6",
     "module": "commonjs",
-    "declaration": true,
     "rootDir": "src",
     "exclude": [
         "node_modules",
@@ -9,11 +8,10 @@
         "test"
     ],
     "out": "./doc",
-    "name": "Akera Net",
+    "name": "Akera Passport",
     "version": true,
     "ignoreCompilerErrors": true,
     "mode": "file",
     "hideGenerator": true,
-    "exludeExternals": true,
     "excludePrivate": true
 }
