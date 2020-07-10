@@ -33,7 +33,7 @@ export class Strategy extends PassportStrategy {
 
   private customVerify: CustomVerifyFunction;
 
-  public constructor(options: IAkeraPassportOptions, verify: CustomVerifyFunction) {
+  public constructor(options: IAkeraPassportOptions, verify?: CustomVerifyFunction) {
     super();
 
     if (!options || !options.server || !options.server.host || !options.server.port) {
