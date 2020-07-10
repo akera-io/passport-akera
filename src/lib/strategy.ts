@@ -25,9 +25,9 @@ type VerifyFunction = (err, user, info?) => void;
 type CustomVerifyFunction = (req, user, callback?: VerifyFunction) => void;
 
 export class Strategy extends PassportStrategy {
-  private options: IAkeraPassportOptions;
+  public name: string;
 
-  private name: string;
+  private options: IAkeraPassportOptions;
 
   private customVerify: CustomVerifyFunction;
 
