@@ -1,6 +1,7 @@
 import {Strategy as PassportStrategy} from 'passport-strategy';
 
-import {connect} from '@akeraio/api';
+import {connect, IConnection} from '@akeraio/api';
+import {ConnectInfo} from '@akeraio/net';
 import {Request} from "express";
 
 export interface IAkeraServer {
@@ -10,9 +11,11 @@ export interface IAkeraServer {
 }
 
 export interface IAkeraPassportOptions {
+  name?: string,
   usernameField?: string,
   passwordField?: string,
   server?: IAkeraServer,
+  broker?: IConnection,
   passReqToCallback?: boolean,
 }
 
@@ -21,8 +24,12 @@ export interface IAkeraPassportAuthenticateOptions {
   badRequestMessage?: string,
 }
 
-type VerifyFunction = (err, user, info?) => void;
-type CustomVerifyFunction = (req, user, callback?: VerifyFunction) => void;
+export interface IAkeraUser {
+  name: string
+}
+
+type VerifyFunction = (err: Error | null, user: IAkeraUser, info?) => void;
+type CustomVerifyFunction = (req: IAkeraUser | Request, user: IAkeraUser | VerifyFunction, callback?: VerifyFunction) => void;
 
 export class Strategy extends PassportStrategy {
   public get name(): string {
@@ -45,7 +52,11 @@ export class Strategy extends PassportStrategy {
     this.customVerify = verify;
   }
 
-  public async authenticate(req: Request, options?: IAkeraPassportAuthenticateOptions): Promise<void> {
+  private _getConnection(req: Request, options?: IAkeraPassportAuthenticateOptions): Promise<IConnection> {
+    if (this.options.broker) {
+      return Promise.resolve(this.options.broker);
+    }
+
     const username = this.getCredentials(req.body, this.options.usernameField)
       || this.getCredentials(req.query, this.options.usernameField);
     const password = this.getCredentials(req.body, this.options.passwordField)
@@ -54,24 +65,30 @@ export class Strategy extends PassportStrategy {
     options = options || {};
 
     if (!username || !password) {
-      return this.fail({
+      this.fail({
         message: options.badRequestMessage || 'Missing credentials',
       }, 400);
+      return;
     }
 
-    const config = {
+    const config: ConnectInfo = {
       host: this.options.server.host,
       port: this.options.server.port,
-      user: username,
-      passwd: password,
-      useSSL: this.options.server.useSSL || false,
+      ssl: this.options.server.useSSL || false,
     };
 
+    return connect(config, username, password);
+  }
+
+  public async authenticate(req: Request, options?: IAkeraPassportAuthenticateOptions): Promise<void> {
     try {
-      const connection = await connect(config);
+      const username = this.getCredentials(req.body, this.options.usernameField)
+        || this.getCredentials(req.query, this.options.usernameField);
+
+      const connection = await this._getConnection(req, options);
       await connection.disconnect();
-      const user = {
-        name: config.user,
+      const user: IAkeraUser = {
+        name: username,
       };
 
       if (!this.customVerify) {
@@ -80,11 +97,11 @@ export class Strategy extends PassportStrategy {
       }
 
       if (this.options.passReqToCallback) {
-        this.customVerify(req, user, (err, user, info) => this.verify(err, user, info));
+        this.customVerify(req, user, (err: Error, user: IAkeraUser, info?) => this.verify(err, user, info));
         return;
       }
 
-      this.customVerify(user, (err, user, info) => this.verify(err, user, info));
+      this.customVerify(user, (err: Error, user: IAkeraUser, info?) => this.verify(err, user, info));
     } catch (err) {
       this.fail(
         {
@@ -103,11 +120,11 @@ export class Strategy extends PassportStrategy {
     };
   }
 
-  private getCredentials(lInfo, field): string | null {
+  private getCredentials(lInfo: IAkeraPassportAuthenticateOptions, field: string): string | null {
     return !lInfo || !lInfo[field] ? null : lInfo[field];
   }
 
-  private verify(err, user, info): void {
+  private verify(err: Error | null, user: IAkeraUser, info): void {
     if (err) {
       this.error(err);
       return;
