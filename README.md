@@ -57,8 +57,6 @@ passport.use(new AkeraStrategy({
           }
         ));
 
-Note: you can pass a function instead of an object as `options`, see the [example below](#options-as-function)
-
 ### Authenticate requests
 
 Use `passport.authenticate()`, specifying the `'akera'` strategy, to authenticate requests.
